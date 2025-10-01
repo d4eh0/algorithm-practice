@@ -1,4 +1,5 @@
-import java.util.*;
+package 문자찾기;
+
 import java.io.*;
 
 public class Main {
