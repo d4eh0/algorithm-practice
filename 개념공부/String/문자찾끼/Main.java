@@ -1,4 +1,4 @@
-package 문자찾기;
+package 문자찾끼;
 
 import java.io.*;
 
