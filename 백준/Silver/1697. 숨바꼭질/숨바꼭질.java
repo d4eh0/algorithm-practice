@@ -17,8 +17,6 @@ public class Main {
 
 	static int N, K;
 	static int[] map = new int[100001];
-	static boolean[] visited = new boolean[100001];
-	static int[] dx = {-1, 1, 2};
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,45 +24,38 @@ public class Main {
 		
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
-		
-		if (N == K) {
-			System.out.println(0);
-			return;
-		}
 
-		map[K] = -1; 
+		Arrays.fill(map, -1);
 
-		for (int i = 0; i < 100001; i++) {
-				if (map[i] == 0) bfs(N);
-		}
+		bfs(N);
 	}
 
 	static void bfs(int sx) {
 		Queue<Integer> q = new ArrayDeque<>();
-		visited[sx] = true;
+		map[sx] = 0;
 		q.add(sx);
 
 		while(!q.isEmpty()) {
 			int x = q.poll();
 
-			// 걷기
-			for (int d = 0; d < 3; d++) {
-				int nx;
-				if (d < 2)
-					nx = x + dx[d];
-				else 
-					nx = x * 2;
-				if (nx < 0 || nx >= 100001) continue;
-				if (visited[nx]) continue;
-				if (map[nx] == -1) {
-					map[nx] = map[x] + 1;
-					System.out.println(map[nx]);
-					return;
-				}
+			if (x == K) {
+				System.out.println(map[x]);
+				return;
+			}
+			
+			if (x - 1 >= 0 && x - 1 < 100001 && map[x - 1] == -1) {
+				map[x - 1] = map[x] + 1;
+				q.add(x - 1);
+			}
 
-				visited[nx] = true;
-				map[nx] = map[x] + 1;
-				q.add(nx);
+			if (x + 1 >= 0 && x + 1 < 100001 && map[x + 1] == -1) {
+				map[x + 1] = map[x] + 1;
+				q.add(x + 1);
+			}
+
+			if (x * 2 >= 0 && x * 2 < 100001 && map[x * 2] == -1) {
+				map[x * 2] = map[x] + 1;
+				q.add(x * 2);
 			}
 		}
 	}
